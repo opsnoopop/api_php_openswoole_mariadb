@@ -1,0 +1,3 @@
+mariadb/
+k6/*.html
+sysbench_raw_*.txt
