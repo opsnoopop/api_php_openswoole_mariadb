@@ -7,7 +7,7 @@ services:
     container_name: container_php
     restart: always
     ports:
-      - "9501:9501"
+      - "80:9501"
     depends_on:
       - database
     networks:
@@ -27,6 +27,12 @@ services:
       - "3306:3306"
     volumes:
       - ./mariadb:/var/lib/mysql
+      - ./mariadb_initdb:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "mariadb-admin ping -h localhost -u$$MARIADB_USER -p$$MARIADB_PASSWORD --silent"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
     networks:
       network_php:
         ipv4_address: 172.16.0.12
